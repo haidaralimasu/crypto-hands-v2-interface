@@ -1,6 +1,6 @@
 export const infuraId = "d014af161a4b4ffbaa358366e232e2c8";
-export const cryptoHandsAddress = "0x3C1Aa24E8C8E8f018AB5E3d416E89c37538DEe4d";
-export const rpsAddress = "0x2C74F535Bb0E53041b9ba36DFf054226810F2aaf";
+export const cryptoHandsAddress = "0x254d1Ca148C37E30B1409f7487Eb77E6a2cF6Ab5";
+export const rpsAddress = "0x07A8560053B0e057a9bb6C78cE2a3D037f5baa8a";
 export const graphEndpoint =
   "https://api.thegraph.com/subgraphs/name/haidaralimasu/crypto-hands-subgraph";
 
