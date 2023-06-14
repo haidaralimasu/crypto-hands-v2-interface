@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useEthers, FantomTestnet } from "@usedapp/core";
+import { useEthers, Mumbai } from "@usedapp/core";
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import CoinbaseWalletSDK from "@coinbase/wallet-sdk";
@@ -17,8 +17,8 @@ const WalletConnectButton = () => {
     }
     setActivateError("");
 
-    if (chainId != FantomTestnet.chainId) {
-      switchNetwork(FantomTestnet.chainId);
+    if (chainId != Mumbai.chainId) {
+      switchNetwork(Mumbai.chainId);
     }
   }, [error, account]);
 
@@ -45,8 +45,8 @@ const WalletConnectButton = () => {
         options: {
           appName: "Rock Paper Scissors",
           infuraId: "",
-          rpc: "https://rpc.ankr.com/fantom_testnet",
-          chainId: FantomTestnet.chainId,
+          rpc: `https://polygon-mumbai.infura.io/v3/${infuraId}`,
+          chainId: Mumbai.chainId,
           darkMode: false,
         },
       },
@@ -54,9 +54,9 @@ const WalletConnectButton = () => {
         package: Torus,
         options: {
           networkParams: {
-            host: `https://rpc.ankr.com/fantom_testnet`,
-            chainId: FantomTestnet.chainId,
-            networkId: FantomTestnet.chainId,
+            host: `https://polygon-mumbai.infura.io/v3/${infuraId}`,
+            chainId: Mumbai.chainId,
+            networkId: Mumbai.chainId,
           },
           config: {
             buildEnv: "development",

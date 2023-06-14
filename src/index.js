@@ -2,12 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import { DAppProvider, FantomTestnet } from "@usedapp/core";
+import { DAppProvider, Mumbai } from "@usedapp/core";
+import { infuraId } from "./config";
 
 const config = {
-  readOnlyChainId: FantomTestnet.chainId,
+  readOnlyChainId: Mumbai.chainId,
   readOnlyUrls: {
-    [FantomTestnet.chainId]: `https://rpc.ankr.com/fantom_testnet`,
+    [Mumbai.chainId]: `https://polygon-mumbai.infura.io/v3/${infuraId}`,
   },
 };
 

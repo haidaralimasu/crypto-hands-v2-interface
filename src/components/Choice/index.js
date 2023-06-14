@@ -37,7 +37,7 @@ const Choice = () => {
 
       let tx = await rpsContract.makeBet(select, betRefrrer, {
         value: amount,
-        // gasLimit: 100000,
+        gasLimit: 1000000,
       });
 
       await notify(
