@@ -1,16 +1,10 @@
 import React, { useState } from "react";
 import { useEthers, useEtherBalance, shortenAddress } from "@usedapp/core";
 import { ethers } from "ethers";
-import {
-  useNftWinPercentage,
-  useGamesPlayed,
-  useGamesWon,
-  useNftWon,
-} from "../../hooks";
 import { rpsAddress } from "../../config";
 import { rpsInterface } from "../../sdk";
 import { notify } from "../../helpers/alerts";
-import { useBalanceOf, useTotalSupply } from "../../hooks";
+import { useBalanceOf, useGetClaimableAmount } from "../../hooks";
 import { formatEther } from "ethers/lib/utils";
 
 import { useGetPlayer } from "../../hooks";
@@ -19,35 +13,19 @@ const PersonalStats = () => {
   const { account } = useEthers();
   const userAccount = account ? account : ethers.constants.AddressZero;
   const etherBalance = useEtherBalance(account);
-  const nftWinPercentage = useNftWinPercentage(userAccount);
-  const gamesPlayed = useGamesPlayed(userAccount);
-  const formattedGamesPlayed = gamesPlayed ? gamesPlayed.toString() : 0;
-  const nftWon = useNftWon(userAccount);
-  const formattedNftWon = nftWon ? nftWon.toString() : 0;
-  const gamesWon = useGamesWon(userAccount);
-  const formattedGamesWon = gamesWon ? gamesWon.toString() : 0;
   const cryptoHandsBalance = useBalanceOf(userAccount);
   const formattedCryptoHandsBalance = cryptoHandsBalance
     ? cryptoHandsBalance.toString()
     : 0;
-  const contractEthBalance = useEtherBalance(rpsAddress);
   const userBalance = etherBalance ? etherBalance : 0;
-  const totalSupply = useTotalSupply();
-  const formattedTotalSupply = totalSupply ? totalSupply.toNumber() : 0;
 
   const player = useGetPlayer(userAccount);
 
   const [copyLink, setCopyLink] = useState(false);
-
-  // uint256 totalGamesPlayed;
-  // uint256 totalGamesWonned;
-  // uint256 totalEarnings;
-  // uint256 referralEarnings;
-  // uint256 totalReferrals;
-  // uint256 nftWoned;
-  // uint256 nftWinPercentage;
-  // uint256 refreeNftWinPercentage;
-  // address refree;
+  const claimableAmount = useGetClaimableAmount(userAccount);
+  const formattedClaimableAmount = claimableAmount
+    ? claimableAmount.toString()
+    : 0;
 
   const formattedPlayer = player
     ? player.toString().split(",")
@@ -85,7 +63,7 @@ const PersonalStats = () => {
 
   return (
     <div className="d-flex justify-content-center">
-      <div class="card" style={{ width: "18rem" }}>
+      <div class="card" style={{ width: "15rem" }}>
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
             Account: {shortenAddress(userAccount)}
@@ -99,7 +77,7 @@ const PersonalStats = () => {
         </ul>
       </div>
 
-      <div class="card" style={{ width: "18rem" }}>
+      <div class="card" style={{ width: "15rem" }}>
         <ul class="list-group list-group-flush">
           <li class="list-group-item">Games Won: {formattedPlayer[1]}</li>
           <li class="list-group-item">
@@ -111,17 +89,20 @@ const PersonalStats = () => {
         </ul>
       </div>
 
-      <div class="card" style={{ width: "18rem" }}>
+      <div class="card" style={{ width: "15rem" }}>
         <ul class="list-group list-group-flush">
           <li class="list-group-item">Referrals: {formattedPlayer[4]}</li>
-          <li class="list-group-item">NFT Wonned: {formattedPlayer[5]}</li>
           <li class="list-group-item">
-            NFT Win Percentage: {formattedPlayer[6]}
+            Total NFT Balance:{" "}
+            {Number(formattedPlayer[5]) + Number(formattedCryptoHandsBalance)}
+          </li>
+          <li class="list-group-item">
+            NFT Win Percentage: {formattedPlayer[6] / 100000000} %
           </li>
         </ul>
       </div>
 
-      <div class="card" style={{ width: "18rem" }}>
+      <div class="card" style={{ width: "15em" }}>
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
             Refree NFT Percentage: {formattedPlayer[7]}
@@ -143,11 +124,28 @@ const PersonalStats = () => {
         </ul>
       </div>
 
-      {cryptoHandsBalance > 0 ? (
-        <button onClick={() => claim()} className="btn btn-primary">
-          Claim{" "}
-        </button>
-      ) : null}
+      <div class="card" style={{ width: "15rem" }}>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            Claimable Amount: {formatEther(formattedClaimableAmount)}
+          </li>
+          <li class="list-group-item">
+            Claim Status:{" "}
+            {cryptoHandsBalance > 0 ? (
+              <button onClick={() => claim()} className="btn btn-primary">
+                Claim{" "}
+              </button>
+            ) : (
+              <button className="btn btn-primary">
+                You cannot claim rewards
+              </button>
+            )}
+          </li>
+          <li class="list-group-item">
+            NFT Win Percentage: {formattedPlayer[6] / 100000000} %
+          </li>
+        </ul>
+      </div>
     </div>
   );
 };

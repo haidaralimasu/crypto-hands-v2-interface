@@ -170,3 +170,17 @@ export const useGetPlayer = (user) => {
   }
   return value?.[0];
 };
+
+export const useGetClaimableAmount = (user) => {
+  const { value, error } =
+    useCall({
+      contract: new ethers.Contract(rpsAddress, rpsInterface),
+      method: "getClaimAmount",
+      args: [user],
+    }) ?? {};
+  if (error) {
+    console.log(error.message);
+    return undefined;
+  }
+  return value?.[0];
+};
