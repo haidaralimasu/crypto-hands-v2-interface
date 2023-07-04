@@ -105,7 +105,7 @@ const PersonalStats = () => {
       <div class="card" style={{ width: "15em" }}>
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
-            Refree NFT Percentage: {formattedPlayer[7]}
+            Refree NFT Percentage: {(formattedPlayer[7] / 10000).toFixed(4)} %
           </li>
           <li class="list-group-item">
             Refree: {shortenAddress(formattedPlayer[8])}
@@ -142,7 +142,7 @@ const PersonalStats = () => {
             )}
           </li>
           <li class="list-group-item">
-            NFT Win Percentage: {formattedPlayer[6] / 100000000} %
+            NFT Win Percentage: {(formattedPlayer[6] / 100000).toFixed(4)} %
           </li>
         </ul>
       </div>
